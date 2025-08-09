@@ -1,0 +1,11 @@
+[package]
+name = "vin-info-wasm"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+vin-info = "0.1.2"
+wit-bindgen = "0.43.0"

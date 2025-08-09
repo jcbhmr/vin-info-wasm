@@ -1,0 +1,149 @@
+package jcbhmr:vin-info@0.1.2;
+
+// TODO: Put these types in the root world
+interface types {
+    /// Vehicle identifier number
+    /// 
+    /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html
+    resource vin {
+        /// Calculates checksum of the provided VIN
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.calculate_checksum
+        calculate-checksum: func() -> u32;
+
+        /// Calculates checksum and transforms it into corresponding digit
+        ///
+        /// Note that this is only valid for North America/Asia VINs while eruopean VINs omit it completely and has no concept of checksum digit
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.calculate_checksum_digit
+        calculate-checksum-digit: func() -> u32;
+
+        /// Calculates checksum and compares it against VIN’s checksum, returning true if equal
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.is_checksum_valid
+        is-checksum-valid: func() -> bool;
+
+        /// Returns manufacturer country, if VIN is valid and it is known value, otherwise ‘Unknown’.
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.manufacturer_country
+        manufacturer-country: func() -> string;
+
+        /// Returns manufacturer name, if VIN is valid and it is known value, otherwise ‘Unknown’.
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.manufacturer_name
+        manufacturer-name: func() -> string;
+
+        /// Returns region manufacturer, if VIN is valid
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.manufacturer_region
+        manufacturer-region: func() -> option<region>;
+
+        /// Creates new instance with panic on invalid input.
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.new
+        constructor(vin: string);
+
+        /// Creates new instance
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.try_new
+        try-new: static func(vin: string) -> result<vin, vin-error>;
+
+        /// Returns vehicle description section
+        /// 
+        /// Per ISO3779 it is characters from 4 to 9. But for North America/Asia character 9 usually acts as check digit.
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.vds
+        vds: func() -> string;
+
+        /// Returns Vehicle identifier section (Characters 10 to 17)
+        ///
+        /// For North America/Asia it includes model year and plant code/manufacturer identifier Hence actual serial number starts from character 12, always numeric
+        ///
+        /// For Europe you can consider whole VIC as serial number.
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.vic
+        vic: func() -> string;
+
+        /// Returns 3 letter World manufacturer identifier
+        ///
+        /// For some WMI may always ending with digit 9 (Check wikipedia for details)
+        /// 
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#method.wmi
+        wmi: func() -> string;
+
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#impl-Clone-for-Vin%3C'a%3E
+        clone: func() -> vin;
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#impl-Clone-for-Vin%3C'a%3E
+        clone-from: func(vin: borrow<vin>);
+
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#impl-Debug-for-Vin%3C'_%3E
+        to-debug-string: func() -> string;
+
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#impl-Display-for-Vin%3C'_%3E
+        to-string: func() -> string;
+
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#impl-PartialEq-for-Vin%3C'a%3E
+        eq: func(other: borrow<vin>) -> bool;
+        /// https://docs.rs/vin-info/0.1.2/vin_info/struct.Vin.html#impl-PartialEq-for-Vin%3C'a%3E
+        ne: func(other: borrow<vin>) -> bool;
+    }
+
+    /// Region
+    /// 
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.Region.html
+    enum region {
+        /// Africa region
+        africa,
+        /// Asia region
+        asia,
+        /// Europe region
+        europe,
+        /// North America region
+        north-america,
+        /// Oceania region
+        oceania,
+        /// South America region
+        south-america,
+    }
+
+    /// Gets textual representation
+    /// 
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.Region.html#method.as_str
+    region-as-str: func(self: region) -> string;
+
+    /// Returns region based on first character of WMI.
+    ///
+    /// If invalid, then return None
+    /// 
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.Region.html#method.from_wmi_region
+    region-from-wmi-region: func(ch: u8) -> option<region>;
+
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.Region.html#impl-Debug-for-Region
+    region-to-debug-string: func(self: region) -> string;
+
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.Region.html#impl-Display-for-Region
+    region-to-string: func(self: region) -> string;
+
+    /// Error parsing VIN
+    /// 
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.VinError.html
+    variant vin-error {
+        /// VIN must be 17 characters long
+        invalid-len,
+        /// VIN contains invalid character.
+        invalid-char(tuple<u32, u32>),
+    }
+
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.VinError.html#impl-Debug-for-VinError
+    vin-error-to-debug-string: func(self: vin-error) -> string;
+
+    /// https://docs.rs/vin-info/0.1.2/vin_info/enum.VinError.html#impl-Display-for-VinError
+    vin-error-to-string: func(self: vin-error) -> string;
+}
+
+/// VIN information library
+/// 
+/// https://docs.rs/vin-info/0.1.2/vin_info/
+world vin-info {
+    export types;
+}
