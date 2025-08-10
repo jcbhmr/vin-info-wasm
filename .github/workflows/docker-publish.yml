@@ -35,6 +35,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - run: rustup target add wasm32-wasip2
-      - run: cargo install wkg
+      - uses: cargo-bins/cargo-binstall@main
+      - run: cargo binstall -y wkg
       - run: cargo build --release
       - run: wkg publish target/wasm32-wasip2/release/vin_info_wasm.wasm
