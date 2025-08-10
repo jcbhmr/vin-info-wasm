@@ -32,7 +32,7 @@ jobs:
         with:
           registry: ${{ env.WKG_REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.TEMP_GITHUB_TOKEN }}
 
       - run: rustup target add wasm32-wasip2
       - uses: cargo-bins/cargo-binstall@main
