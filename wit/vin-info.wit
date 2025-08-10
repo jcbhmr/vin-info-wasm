@@ -1,4 +1,4 @@
-package jcbhmr:vin-info@0.1.2;
+package jcbhmr:vin-info@0.1.2-rc1;
 
 // TODO: Put these types in the root world
 interface types {

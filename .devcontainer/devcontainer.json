@@ -1,8 +1,13 @@
 {
     "image": "mcr.microsoft.com/devcontainers/rust",
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli": {},
+        "ghcr.io/devcontainers/features/docker-in-docker": {}
+    },
     "updateContentCommand": {
         "1": "rustup target add wasm32-wasip2",
-        "2": "cargo install --locked wasm-tools"
+        "2": "cargo install --locked wasm-tools wkg",
+        "3": "gh auth token | docker login ghcr.io --username $(gh api user --jq '.login') --password-stdin"
     },
     "customizations": {
         "vscode": {

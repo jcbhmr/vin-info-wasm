@@ -298,7 +298,7 @@ checksum = "e1c87def2f351bb47e4c5e71ce2a3a141d84660e791747151673dc4e514b5021"
 
 [[package]]
 name = "vin-info-wasm"
-version = "0.1.0"
+version = "0.1.2-rc1"
 dependencies = [
  "vin-info",
  "wit-bindgen",
