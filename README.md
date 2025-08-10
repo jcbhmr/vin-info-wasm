@@ -1,13 +1,29 @@
 # Rust vin-info for WASM
 
-🚗 Rust `vin-info` package compiled to WASM
+🚗 Rust [`vin-info`](https://crates.io/crates/vin-info) package compiled to WASM
+
+<table align=center><td>
+
+```py
+vin = Vin("WP0ZZZ99ZTS392124")
+print(vin.manufacturer_region())
+```
+
+<tr><td>
+
+```js
+const vin = new Vin("WP0ZZZ99ZTS392124")
+console.log(vin.wmi())
+```
+
+</table>
 
 ## Installation
 
 You can install this package using [wkg](https://github.com/bytecodealliance/wasm-pkg-tools).
 
 ```sh
-wkg get --registry ghcr.io --package jcbhmr:vin-info@0.1.2-rc1
+wkg get --registry ghcr.io jcbhmr:vin-info@0.1.2-rc1
 ```
 
 ## Usage
@@ -15,6 +31,8 @@ wkg get --registry ghcr.io --package jcbhmr:vin-info@0.1.2-rc1
 Now you need to generate bindings for your language of choice.
 
 TODO: Explain more.
+
+https://github.com/DoumanAsh/vin-info
 
 ## Development
 
